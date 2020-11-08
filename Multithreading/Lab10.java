@@ -66,7 +66,7 @@ class Data {
 	}	
 }
 
-class Monitor extends Thread {
+class Monitor implements Runnable{
 
 	private Data d;
 	private int tails = 0;
@@ -129,7 +129,7 @@ class Monitor extends Thread {
 	}
 }
 
-class Player extends Thread {
+class Player implements Runnable{
 	private Data d;
 	Random rand = new Random();
 	
@@ -169,17 +169,17 @@ class Player extends Thread {
 	} //end of run method		
 }
 
-class Lab10 {
+class Lab10{
 	
 	public static void main(String[] args){
 		
 		Data data = new Data();
 		Thread[] players;
 		Thread monitor;
-		players=new Player[data.getNoP()];
-		monitor=new Monitor(data);
+		players=new Thread[data.getNoP()];
+		monitor=new Thread(new Monitor(data));
 		for(int i=0;i<data.getNoP();i++)
-			players[i]=new Player(data);
+			players[i]=new Thread(new Player(data));
 		for(int i=0;i<data.getNoP();i++)
 			players[i].start();
 		monitor.start();
